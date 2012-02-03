@@ -6,9 +6,9 @@ import java.util.List;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
-import com.googlecode.androidannotations.annotations.Enhanced;
+import com.googlecode.androidannotations.annotations.EBean;
 
-@Enhanced
+@EBean
 public class SmsHelper {
 
 	private static final String SMS_EXTRA_NAME = "pdus";

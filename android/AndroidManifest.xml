@@ -13,7 +13,8 @@
         android:label="@string/app_name" >
         <activity
             android:name=".FosdemSmsActivity_"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="standard" >
         </activity>
 
         <receiver

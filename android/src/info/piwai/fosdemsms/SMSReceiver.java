@@ -1,17 +1,21 @@
 package info.piwai.fosdemsms;
 
 import static java.lang.System.currentTimeMillis;
+
+import java.util.Random;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
+import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EReceiver;
-import com.googlecode.androidannotations.annotations.Inject;
 import com.googlecode.androidannotations.annotations.SystemService;
 
 /**
@@ -27,7 +31,7 @@ public class SMSReceiver extends BroadcastReceiver {
 	@SystemService
 	NotificationManager notificationManager;
 
-	@Inject
+	@Bean
 	SmsHelper smsHelper;
 
 	@Override
@@ -46,15 +50,20 @@ public class SMSReceiver extends BroadcastReceiver {
 						Intent showMessageIntent = FosdemSmsActivity_.intent(context) //
 								.sender(smsMessage.getOriginatingAddress()) //
 								.message(smsMessage.getMessageBody()) //
+								.flags(Intent.FLAG_ACTIVITY_NEW_TASK) //
 								.get();
 
-						Notification notification = new Notification(R.drawable.ic_launcher, "New Fosdem Message!", currentTimeMillis());
-						notification.flags = Notification.FLAG_AUTO_CANCEL;
-						PendingIntent contentIntent = PendingIntent.getActivity(context, 0, showMessageIntent, 0);
-						Context applicationContext = context.getApplicationContext();
-						notification.setLatestEventInfo(applicationContext, "Fosdem Message from " + smsMessage.getOriginatingAddress(), "Click here to let Android God read it", contentIntent);
+						int someRandomId = new Random().nextInt();
 
-						notificationManager.notify(1, notification);
+						showMessageIntent.setData(Uri.parse("hack:" + someRandomId));
+
+						Notification notification = new Notification(R.drawable.ic_launcher, "New Fosdem Sms!", currentTimeMillis());
+						notification.flags = Notification.FLAG_AUTO_CANCEL;
+						PendingIntent contentIntent = PendingIntent.getActivity(context, 0, showMessageIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+						Context applicationContext = context.getApplicationContext();
+						notification.setLatestEventInfo(applicationContext, "Message from " + smsMessage.getOriginatingAddress(), "Click here to unleash Android God!", contentIntent);
+
+						notificationManager.notify(someRandomId, notification);
 					}
 				}
 			}
