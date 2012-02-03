@@ -18,13 +18,6 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EReceiver;
 import com.googlecode.androidannotations.annotations.SystemService;
 
-/**
- * This sms broadcast received has a high priority, it should run prior to any
- * other sms receiver.
- * 
- * If one of the SMS is a Siine command, it is handled, and the broadcast is
- * aborted.
- */
 @EReceiver
 public class SMSReceiver extends BroadcastReceiver {
 
