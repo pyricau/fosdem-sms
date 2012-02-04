@@ -27,15 +27,15 @@ public class FosdemSmsActivity extends Activity {
 
 	@ViewById
 	TextView fosdemTextView;
-	
+
 	@StringRes
 	String senderToast;
-	
+
 	@AfterViews
 	void fillText() {
-		fosdemTextView.setText(sender + "\n\n" + message);
+		fosdemTextView.setText(message);
 	}
-	
+
 	@Click
 	void fosdemTextViewClicked() {
 		Toast.makeText(this, String.format(senderToast, sender), LENGTH_LONG).show();
